@@ -1,24 +1,26 @@
 import xmltodict
-import os
-import numpy as np
+
 import glob
-from PIL import Image
-from PIL import ImageDraw
 import cv2
 
 annotations_paths = glob.glob('*.xml')
 img_paths=glob.glob('*.jpg')
-for xmlfile,imgfile in zip(annotations_paths,img_paths):
+for xmlfile,imgfile in zip(sorted(annotations_paths),sorted(img_paths)):
     x=xmltodict.parse(open( xmlfile , 'rb' ))
     img=cv2.imread(imgfile)
+    width = int(img.shape[1] * 50 / 100)
+    height = int(img.shape[0] * 50 / 100)
+    dim = (width, height)
+    # resize image
+    img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA) 
     for i in x['annotation']['object']:
-        Xminvalue=int(i['bndbox']['xmin'])
-        Xmaxvalue=int(i['bndbox']['xmax'])
-        Yminvalue=int(i['bndbox']['ymin'])
-        Ymaxvalue=int(i['bndbox']['ymax'])
+        Xminvalue=int(int(i['bndbox']['xmin'])* 50 / 100)
+        Xmaxvalue=int(int(i['bndbox']['xmax'])* 50 / 100)
+        Yminvalue=int(int(i['bndbox']['ymin'])* 50 / 100)
+        Ymaxvalue=int(int(i['bndbox']['ymax'])* 50 / 100)
         name=i['name']
         img = cv2.rectangle(img,(Xminvalue,Yminvalue),(Xmaxvalue,Ymaxvalue),(0,255,0),1)
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(img,name,(Xminvalue,Yminvalue), font, 0.5,(0,255,0),1,cv2.LINE_AA)
     cv2.imshow('Image Window',img)
-    k=cv2.waitKey(400)
+    k=cv2.waitKey(500)
