@@ -15,7 +15,10 @@ for xmlfile in annotations_paths:
         Xmaxvalue=int(i['bndbox']['xmax'])
         Yminvalue=int(i['bndbox']['ymin'])
         Ymaxvalue=int(i['bndbox']['ymax'])
-        img = cv2.rectangle(img,(Xminvalue,Yminvalue),(Xmaxvalue,Ymaxvalue),(0,255,0),3)
+        name=i['name']
+        img = cv2.rectangle(img,(Xminvalue,Yminvalue),(Xmaxvalue,Ymaxvalue),(0,255,0),1)
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(img,name,(Xminvalue,Yminvalue), font, 0.5,(0,255,0),1,cv2.LINE_AA)
     cv2.imshow('Image Window',img)
     k=cv2.waitKey(0)
 
