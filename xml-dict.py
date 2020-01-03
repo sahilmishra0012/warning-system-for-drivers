@@ -20,11 +20,11 @@ for xmlfile in annotations_paths:
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(img,name,(Xminvalue,Yminvalue), font, 0.5,(0,255,0),1,cv2.LINE_AA)
     cv2.imshow('Image Window',img)
-    k=cv2.waitKey(0)
+    k=cv2.waitKey(10000)
 
-    if k==27:#  27 is for escape character
-        cv2.destroyAllWindows()# To destroy all the windows
-    # Write Image when s is pressed.
-    elif k==ord('s'):
-        cv2.imwrite('bird.jpg',img)
-        cv2.destroyAllWindows()# To destroy all the windows
+    # if k==27:#  27 is for escape character
+    #     cv2.destroyAllWindows()# To destroy all the windows
+    # # Write Image when s is pressed.
+    # elif k==ord('s'):
+    #     cv2.imwrite('bird.jpg',img)
+    #     cv2.destroyAllWindows()# To destroy all the windows
