@@ -1,5 +1,4 @@
 import xmltodict
-
 import glob
 import cv2
 
@@ -19,8 +18,8 @@ for xmlfile,imgfile in zip(sorted(annotations_paths),sorted(img_paths)):
         Yminvalue=int(int(i['bndbox']['ymin'])* 50 / 100)
         Ymaxvalue=int(int(i['bndbox']['ymax'])* 50 / 100)
         name=i['name']
-        img = cv2.rectangle(img,(Xminvalue,Yminvalue),(Xmaxvalue,Ymaxvalue),(0,255,0),1)
+        img = cv2.rectangle(img,(Xminvalue,Yminvalue),(Xmaxvalue,Ymaxvalue),(255,255,0),1)
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img,name,(Xminvalue,Yminvalue), font, 0.5,(0,255,0),1,cv2.LINE_AA)
+        cv2.putText(img,name,(Xminvalue,Yminvalue), font, 0.5,(255,255,0),1,cv2.LINE_AA)
     cv2.imshow('Image Window',img)
-    k=cv2.waitKey(500)
+    k=cv2.waitKey(4000)
