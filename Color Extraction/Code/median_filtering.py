@@ -3,7 +3,7 @@ import numpy as np
 
 img=cv2.imread('image.jpg')
 img=cv2.cvtColor(img,cv2.COLOR_BGR2YCrCb)
-img = cv2.medianBlur(img, 5)
+img = cv2.medianBlur(img, 3)
 
 # kernel=np.array([[-1,-1,-1],
 #                 [-1,9,-1],
