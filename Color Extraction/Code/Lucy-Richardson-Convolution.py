@@ -2,8 +2,6 @@ import numpy as np
 import cv2
 
 from scipy.signal import convolve3d
-from skimage import color, data, restoration
-
 from skimage import color, data, restoration,io
 
 img = io.imread('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/Warning System for Drivers/Color Extraction/Data/0003660.jpg')
