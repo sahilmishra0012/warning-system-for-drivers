@@ -10,7 +10,7 @@ output_Cr = cv2.equalizeHist(Cr)
 output_Cb = cv2.equalizeHist(Cb)
 img = cv2.merge((output_Y, output_Cr, output_Cb))
 
-ret, thresh2 = cv2.threshold(img, 140, 255, cv2.THRESH_BINARY_INV) 
+ret, thresh2 = cv2.threshold(output_Cr, 200, 255, cv2.THRESH_BINARY_INV) 
 
 cv2.imshow('Image',thresh2)
 cv2.waitKey(0)
