@@ -6,7 +6,7 @@ class ImagePreprocess:
 
     def deblur(self):  
         temp_img=cv2.cvtColor(self.img,cv2.COLOR_BGR2YCrCb) # RGB to YCrCb
-        temp_img = cv2.medianBlur(temp_img, 3)    # Median Filtering
+        temp_img = cv2.medianBlur(temp_img, 5)    # Median Filtering
         Y,Cr,Cb = cv2.split(temp_img) # Channel Splitting
 
         # Histogram Equalization of each channel
