@@ -1,9 +1,21 @@
 import cv2
 
-
 class ImagePreprocess:
     def __init__(self,file_name):
         self.file=file_name
+        self.img=cv2.imread(file)
+
+    def rgb_ycrcb(file):
+        temp_img=cv2.cvtColor(img,cv2.COLOR_BGR2YCrCb)
+        return temp_img
+
+    def ycrcb_rgb(file):
+        temp_img=cv2.cvtColor(img,cv2.COLOR_YCrCb2RGB)
+        return temp_img
+
+    def ycrcb_rgb(file):
+        temp_img=cv2.cvtColor(img,cv2.COLOR_YCrCb2RGB)
+        return temp_img
 
 img=cv2.imread('image.jpg')
 img=cv2.cvtColor(img,cv2.COLOR_BGR2YCrCb)   # RGB to YCrCb
