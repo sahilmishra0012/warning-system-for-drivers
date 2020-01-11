@@ -3,12 +3,12 @@ import glob
 import cv2
 
 
-path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/Warning System for Drivers/Data'
+path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/clean/IDD_Detection/data'
 
 annotations_paths = [f for f in glob.glob(path + "/**/*.xml", recursive=True)]
 
 img_paths = [f for f in glob.glob(path + "/**/*.jpg", recursive=True)]
-print(len(img_paths))
+
 
 for xmlfile,imgfile in zip(sorted(annotations_paths),sorted(img_paths)):
     x=xmltodict.parse(open( xmlfile , 'rb' ))
