@@ -9,7 +9,6 @@ annotations_paths = [f for f in glob.glob(path + "/**/*.xml", recursive=True)]
 
 img_paths = [f for f in glob.glob(path + "/**/*.jpg", recursive=True)]
 
-
 for xmlfile,imgfile in zip(sorted(annotations_paths),sorted(img_paths)):
     x=xmltodict.parse(open( xmlfile , 'rb' ))
     img=cv2.imread(imgfile)
