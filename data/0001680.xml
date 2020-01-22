@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <annotation>
 	<filename>0001680.jpg</filename>
-	<folder>BLR-2018-03-22_17-39-26_2_frontFar_left_13</folder>
+	<folder>BLR-2018-03-22_17-39-26_3_frontNear_left_6</folder>
 	<size>
-		<width>1280</width>
-		<height>964</height>
+		<width>1920</width>
+		<height>1080</height>
 		<depth>3</depth>
 	</size>
 	<object>
-		<name>autorickshaw</name>
+		<name>truck</name>
 		<bndbox>
-			<xmin>620</xmin>
-			<ymax>476</ymax>
-			<xmax>644</xmax>
-			<ymin>448</ymin>
+			<xmin>1261</xmin>
+			<ymax>599</ymax>
+			<xmax>1286</xmax>
+			<ymin>565</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>vehicle fallback</name>
+		<name>car</name>
 		<bndbox>
-			<xmin>653</xmin>
-			<ymax>477</ymax>
-			<xmax>696</xmax>
-			<ymin>429</ymin>
+			<xmin>1245</xmin>
+			<ymax>598</ymax>
+			<xmax>1269</xmax>
+			<ymin>580</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>bicycle</name>
+		<name>truck</name>
 		<bndbox>
-			<xmin>594</xmin>
-			<ymax>496</ymax>
-			<xmax>606</xmax>
-			<ymin>475</ymin>
+			<xmin>1296</xmin>
+			<ymax>595</ymax>
+			<xmax>1316</xmax>
+			<ymin>574</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>rider</name>
+		<name>person</name>
 		<bndbox>
-			<xmin>591</xmin>
-			<ymax>487</ymax>
-			<xmax>606</xmax>
-			<ymin>461</ymin>
+			<xmin>1298</xmin>
+			<ymax>603</ymax>
+			<xmax>1311</xmax>
+			<ymin>583</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>truck</name>
+		<bndbox>
+			<xmin>1786</xmin>
+			<ymax>668</ymax>
+			<xmax>1920</xmax>
+			<ymin>575</ymin>
 		</bndbox>
 	</object>
 </annotation>

@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <annotation>
 	<filename>0003540.jpg</filename>
-	<folder>BLR-2018-03-22_17-39-26_2_frontFar_right_14</folder>
+	<folder>BLR-2018-03-22_17-39-26_3_frontNear_right_6</folder>
 	<size>
-		<width>1280</width>
-		<height>964</height>
+		<width>1920</width>
+		<height>1080</height>
 		<depth>3</depth>
 	</size>
 	<object>
-		<name>person</name>
+		<name>car</name>
 		<bndbox>
-			<xmin>388</xmin>
-			<ymax>520</ymax>
-			<xmax>417</xmax>
-			<ymin>455</ymin>
+			<xmin>1013</xmin>
+			<ymax>654</ymax>
+			<xmax>1040</xmax>
+			<ymin>627</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>motorcycle</name>
+		<name>truck</name>
 		<bndbox>
-			<xmin>935</xmin>
-			<ymax>466</ymax>
-			<xmax>952</xmax>
-			<ymin>444</ymin>
-		</bndbox>
-	</object>
-	<object>
-		<name>rider</name>
-		<bndbox>
-			<xmin>936</xmin>
-			<ymax>451</ymax>
-			<xmax>956</xmax>
-			<ymin>424</ymin>
+			<xmin>938</xmin>
+			<ymax>687</ymax>
+			<xmax>1026</xmax>
+			<ymin>575</ymin>
 		</bndbox>
 	</object>
 </annotation>

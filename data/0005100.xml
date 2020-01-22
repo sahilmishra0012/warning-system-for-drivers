@@ -1,91 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <annotation>
 	<filename>0005100.jpg</filename>
-	<folder>BLR-2018-03-22_17-39-26_2_frontFar_left_12</folder>
+	<folder>BLR-2018-03-22_17-39-26_3_frontNear_left_6</folder>
 	<size>
-		<width>1280</width>
-		<height>964</height>
+		<width>1920</width>
+		<height>1080</height>
 		<depth>3</depth>
 	</size>
 	<object>
-		<name>autorickshaw</name>
-		<bndbox>
-			<xmin>662</xmin>
-			<ymax>480</ymax>
-			<xmax>678</xmax>
-			<ymin>460</ymin>
-		</bndbox>
-	</object>
-	<object>
 		<name>car</name>
 		<bndbox>
-			<xmin>655</xmin>
-			<ymax>503</ymax>
-			<xmax>683</xmax>
-			<ymin>477</ymin>
-		</bndbox>
-	</object>
-	<object>
-		<name>motorcycle</name>
-		<bndbox>
-			<xmin>752</xmin>
-			<ymax>523</ymax>
-			<xmax>770</xmax>
-			<ymin>494</ymin>
-		</bndbox>
-	</object>
-	<object>
-		<name>rider</name>
-		<bndbox>
-			<xmin>752</xmin>
-			<ymax>513</ymax>
-			<xmax>770</xmax>
-			<ymin>482</ymin>
-		</bndbox>
-	</object>
-	<object>
-		<name>car</name>
-		<bndbox>
-			<xmin>764</xmin>
+			<xmin>921</xmin>
 			<ymax>592</ymax>
-			<xmax>878</xmax>
-			<ymin>468</ymin>
+			<xmax>936</xmax>
+			<ymin>578</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>car</name>
+		<name>truck</name>
 		<bndbox>
-			<xmin>895</xmin>
-			<ymax>639</ymax>
-			<xmax>1092</xmax>
-			<ymin>492</ymin>
+			<xmin>990</xmin>
+			<ymax>599</ymax>
+			<xmax>1026</xmax>
+			<ymin>568</ymin>
 		</bndbox>
 	</object>
 	<object>
 		<name>motorcycle</name>
 		<bndbox>
-			<xmin>535</xmin>
-			<ymax>751</ymax>
-			<xmax>661</xmax>
-			<ymin>537</ymin>
+			<xmin>1162</xmin>
+			<ymax>727</ymax>
+			<xmax>1230</xmax>
+			<ymin>622</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>rider</name>
+		<name>person</name>
 		<bndbox>
-			<xmin>545</xmin>
-			<ymax>556</ymax>
-			<xmax>613</xmax>
-			<ymin>485</ymin>
+			<xmin>1233</xmin>
+			<ymax>705</ymax>
+			<xmax>1268</xmax>
+			<ymin>590</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>rider</name>
+		<name>person</name>
 		<bndbox>
-			<xmin>536</xmin>
-			<ymax>694</ymax>
-			<xmax>653</xmax>
-			<ymin>496</ymin>
+			<xmin>667</xmin>
+			<ymax>729</ymax>
+			<xmax>726</xmax>
+			<ymin>578</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>person</name>
+		<bndbox>
+			<xmin>1002</xmin>
+			<ymax>607</ymax>
+			<xmax>1014</xmax>
+			<ymin>583</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>person</name>
+		<bndbox>
+			<xmin>1017</xmin>
+			<ymax>606</ymax>
+			<xmax>1032</xmax>
+			<ymin>580</ymin>
 		</bndbox>
 	</object>
 </annotation>

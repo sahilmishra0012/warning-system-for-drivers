@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <annotation>
 	<filename>0005820.jpg</filename>
-	<folder>BLR-2018-03-22_17-39-26_2_frontFar_right_7</folder>
+	<folder>BLR-2018-03-22_17-39-26_3_frontNear_right_3</folder>
 	<size>
-		<width>1280</width>
-		<height>964</height>
+		<width>1920</width>
+		<height>1080</height>
 		<depth>3</depth>
 	</size>
 	<object>
-		<name>autorickshaw</name>
+		<name>vehicle fallback</name>
 		<bndbox>
-			<xmin>564</xmin>
-			<ymax>422</ymax>
-			<xmax>590</xmax>
-			<ymin>386</ymin>
+			<xmin>1077</xmin>
+			<ymax>639</ymax>
+			<xmax>1096</xmax>
+			<ymin>621</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>truck</name>
+		<name>animal</name>
 		<bndbox>
-			<xmin>611</xmin>
-			<ymax>418</ymax>
-			<xmax>645</xmax>
-			<ymin>375</ymin>
+			<xmin>861</xmin>
+			<ymax>661</ymax>
+			<xmax>880</xmax>
+			<ymin>639</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>car</name>
+		<name>vehicle fallback</name>
 		<bndbox>
-			<xmin>593</xmin>
-			<ymax>429</ymax>
-			<xmax>621</xmax>
-			<ymin>400</ymin>
+			<xmin>1106</xmin>
+			<ymax>632</ymax>
+			<xmax>1117</xmax>
+			<ymin>622</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>bus</name>
+		<bndbox>
+			<xmin>1870</xmin>
+			<ymax>377</ymax>
+			<xmax>1920</xmax>
+			<ymin>56</ymin>
 		</bndbox>
 	</object>
 </annotation>

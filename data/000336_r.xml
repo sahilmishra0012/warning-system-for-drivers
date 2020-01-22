@@ -1,28 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <annotation>
 	<filename>0003360.jpg</filename>
-	<folder>BLR-2018-03-22_17-39-26_2_frontFar_right_10</folder>
+	<folder>BLR-2018-03-22_17-39-26_3_frontNear_right_5</folder>
 	<size>
-		<width>1280</width>
-		<height>964</height>
+		<width>1920</width>
+		<height>1080</height>
 		<depth>3</depth>
 	</size>
 	<object>
-		<name>motorcycle</name>
+		<name>truck</name>
 		<bndbox>
-			<xmin>794</xmin>
-			<ymax>481</ymax>
-			<xmax>805</xmax>
-			<ymin>470</ymin>
+			<xmin>1104</xmin>
+			<ymax>669</ymax>
+			<xmax>1160</xmax>
+			<ymin>592</ymin>
 		</bndbox>
 	</object>
 	<object>
-		<name>rider</name>
+		<name>car</name>
 		<bndbox>
-			<xmin>795</xmin>
-			<ymax>473</ymax>
-			<xmax>809</xmax>
-			<ymin>458</ymin>
+			<xmin>1199</xmin>
+			<ymax>690</ymax>
+			<xmax>1263</xmax>
+			<ymin>636</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>truck</name>
+		<bndbox>
+			<xmin>1319</xmin>
+			<ymax>746</ymax>
+			<xmax>1505</xmax>
+			<ymin>543</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>truck</name>
+		<bndbox>
+			<xmin>1005</xmin>
+			<ymax>718</ymax>
+			<xmax>1122</xmax>
+			<ymin>552</ymin>
+		</bndbox>
+	</object>
+	<object>
+		<name>person</name>
+		<bndbox>
+			<xmin>1268</xmin>
+			<ymax>662</ymax>
+			<xmax>1286</xmax>
+			<ymin>633</ymin>
 		</bndbox>
 	</object>
 </annotation>
