@@ -2,13 +2,14 @@ import os
 import glob
 import pandas as pd
 import xml.etree.ElementTree as ET
+from tqdm import tqdm
 xml_list = []
-path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/Warning System for Drivers/data'
+path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data'
 
-annotations_paths = [f for f in glob.glob(path + "/*.xml", recursive=True)]
+annotations_paths = [f for f in glob.glob(path + "/**/**/*.xml", recursive=True)]
 
 
-for xmlfile in sorted(annotations_paths):
+for xmlfile in tqdm(sorted(annotations_paths)):
     xml_list = []
     tree=ET.parse(xmlfile)
     root = tree.getroot()
