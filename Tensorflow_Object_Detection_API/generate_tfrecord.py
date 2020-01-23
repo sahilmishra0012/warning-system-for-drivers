@@ -1,3 +1,11 @@
+"""
+Usage:
+  # From tensorflow/models/
+  # Create train data:
+  python generate_tfrecord.py --csv_input=data/train_labels.csv  --output_path=train.record
+  # Create test data:
+  python generate_tfrecord.py --csv_input=data/test_labels.csv  --output_path=test.record
+"""
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
@@ -6,32 +14,18 @@ import os
 import io
 import pandas as pd
 import tensorflow as tf
-import glob
-
+from tqdm import tqdm
 
 from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
-# flags = tf.app.flags
-# flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
-# flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
-# flags.DEFINE_string('image_dir', '', 'Path to images')
-# FLAGS = flags.FLAGS
-
-
-path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data'
-
-csv_files = [f for f in glob.glob(path + "/**/**/*.csv", recursive=True)]
-img_files = [f for f in glob.glob(path + "/**/**/*.jpg", recursive=True)]
-
-
-# TO-DO replace this with label map
 def class_text_to_int(row_label):
     if row_label == 'Traffic Sign':
         return 1
     else:
         return 0
+
 
 def split(df, group):
     data = namedtuple('data', ['filename', 'object'])
@@ -40,7 +34,7 @@ def split(df, group):
 
 
 def create_tf_example(group, path):
-    with tf.io.gfile.GFile(path, 'rb') as fid:
+    with tf.io.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
@@ -81,24 +75,18 @@ def create_tf_example(group, path):
 
 
 def main():
-    writer = tf.io.TFRecordWriter(path)
-    # path = os.path.join(FLAGS.image_dir)
-    # examples = pd.read_csv(FLAGS.csv_input)
-    # grouped = split(examples, 'filename')
-    # for group in grouped:
-    #     tf_example = create_tf_example(group, path)
-    #     writer.write(tf_example.SerializeToString())
+    writer = tf.io.TFRecordWriter('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/data1.record')
+    path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data1'
+    examples = pd.read_hdf('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/labels1.h5')
+    grouped = split(examples, 'filename')
+    for group in tqdm(grouped):
+        tf_example = create_tf_example(group, path)
+        writer.write(tf_example.SerializeToString())
 
-    # writer.close()
-    # output_path = os.path.join(os.getcwd(), FLAGS.output_path)
-    # print('Successfully created the TFRecords: {}'.format(output_path))
+    writer.close()
+    output_path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/'
+    print('Successfully created the TFRecords: {}'.format(output_path))
 
-    for i in csv_files:
-        examples = pd.read_csv(i)
-        grouped = split(examples, 'filename')
-        for group in grouped:
-            tf_example = create_tf_example(group, i[:-15]+".jpg")
-            writer.write(tf_example.SerializeToString())
 
 if __name__ == '__main__':
     main()
