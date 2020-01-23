@@ -41,7 +41,7 @@ def split(df, group):
 
 
 def create_tf_example(group, path):
-    with tf.io.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
+    with tf.io.gfile.GFile(path, 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
@@ -97,9 +97,8 @@ def main():
     for i in csv_files:
         examples = pd.read_csv(i)
         grouped = split(examples, 'filename')
-        print(grouped)
         for group in grouped:
-            tf_example = create_tf_example(group, path)
+            tf_example = create_tf_example(group, i[:-15]+".jpg")
             writer.write(tf_example.SerializeToString())
 
 if __name__ == '__main__':
