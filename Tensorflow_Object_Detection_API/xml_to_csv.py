@@ -4,7 +4,7 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 from tqdm import tqdm
 xml_list = []
-path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data1'
+path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data2'
 
 annotations_paths = [f for f in glob.glob(path + "/**/**/*.xml", recursive=True)]
 xml_list = []
@@ -24,4 +24,4 @@ for xmlfile in tqdm(sorted(annotations_paths)):
         xml_list.append(value)
 column_name = ['filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
 xml_df = pd.DataFrame(xml_list, columns=column_name)
-xml_df.to_hdf(('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/labels1.h5'),key='df', mode='w')
+xml_df.to_hdf(('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/labels2.h5'),key='df', mode='w')
