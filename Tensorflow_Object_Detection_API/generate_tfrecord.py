@@ -31,7 +31,7 @@ def class_text_to_int(row_label):
     if row_label == 'Traffic Sign':
         return 1
     else:
-        return None
+        return 0
 
 
 def split(df, group):
@@ -82,7 +82,7 @@ def create_tf_example(group, path):
 
 
 def main():
-    # writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    writer = tf.io.TFRecordWriter(path)
     # path = os.path.join(FLAGS.image_dir)
     # examples = pd.read_csv(FLAGS.csv_input)
     # grouped = split(examples, 'filename')
