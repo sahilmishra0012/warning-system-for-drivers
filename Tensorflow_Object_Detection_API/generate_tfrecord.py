@@ -33,7 +33,6 @@ def class_text_to_int(row_label):
     else:
         return 0
 
-
 def split(df, group):
     data = namedtuple('data', ['filename', 'object'])
     gb = df.groupby(group)
