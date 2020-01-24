@@ -1,21 +1,11 @@
-"""
-Usage:
-  # From tensorflow/models/
-  # Create train data:
-  python generate_tfrecord.py --csv_input=data/train_labels.csv  --output_path=train.record
-  # Create test data:
-  python generate_tfrecord.py --csv_input=data/test_labels.csv  --output_path=test.record
-"""
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
-
 import os
 import io
 import pandas as pd
 import tensorflow as tf
 from tqdm import tqdm
-
 from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
@@ -26,15 +16,13 @@ def class_text_to_int(row_label):
     else:
         return 0
 
-
 def split(df, group):
     data = namedtuple('data', ['filename', 'object'])
     gb = df.groupby(group)
     return [data(filename, gb.get_group(x)) for filename, x in zip(gb.groups.keys(), gb.groups)]
 
-
 def create_tf_example(group, path):
-    with tf.io.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
+    with tf.io.gfile.GFile(group.filename, 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
@@ -73,20 +61,18 @@ def create_tf_example(group, path):
     }))
     return tf_example
 
-
 def main():
-    writer = tf.io.TFRecordWriter('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/data1.record')
-    path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data1'
-    examples = pd.read_hdf('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/labels1.h5')
+    writer = tf.io.TFRecordWriter('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/data2.record')
+    path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data2'
+    examples = pd.read_hdf('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/labels2.h5')
     grouped = split(examples, 'filename')
     for group in tqdm(grouped):
-        tf_example = create_tf_example(group, path)
+        tf_example = create_tf_example(group, group.filename)
         writer.write(tf_example.SerializeToString())
 
     writer.close()
     output_path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/'
     print('Successfully created the TFRecords: {}'.format(output_path))
-
 
 if __name__ == '__main__':
     main()
