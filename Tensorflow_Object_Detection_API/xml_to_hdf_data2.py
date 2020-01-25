@@ -4,7 +4,7 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 from tqdm import tqdm
 xml_list = []
-path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data2'
+path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Annotations'
 
 annotations_paths = [f for f in glob.glob(path + "/**/**/*.xml", recursive=True)]
 xml_list = []
