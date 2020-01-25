@@ -20,7 +20,10 @@ for xmlfile in tqdm(train_files.iterrows()):
                 int(member[1][2].text),
                 int(member[1][3].text)
                 )
-        xml_list.append(value)
+        if os.path.exists(value[0]):
+                xml_list.append(value)
+        else:
+                continue
 column_name = ['filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
 xml_df = pd.DataFrame(xml_list, columns=column_name)
 xml_df.to_csv(('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/val_labels.csv'),index=None)

@@ -22,7 +22,7 @@ def split(df, group):
     return [data(filename, gb.get_group(x)) for filename, x in zip(gb.groups.keys(), gb.groups)]
 
 def create_tf_example(group, path):
-    with tf.io.gfile.GFile(group.filename, 'rb') as fid:
+    with tf.io.gfile.GFile(path, 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
@@ -62,10 +62,10 @@ def create_tf_example(group, path):
     return tf_example
 
 def main():
-    writer = tf.io.TFRecordWriter('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/data1.record')
-    path = '/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/Data1'
-    examples = pd.read_hdf('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/Data/labels1.h5')
+    writer = tf.io.TFRecordWriter('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/train.record')
+    examples = pd.read_csv('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/data/IDD_Detection/train_labels.csv')
     grouped = split(examples, 'filename')
+    print(examples.shape)
     for group in tqdm(grouped):
         tf_example = create_tf_example(group, group.filename)
         writer.write(tf_example.SerializeToString())
