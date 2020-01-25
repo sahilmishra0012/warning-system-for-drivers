@@ -25,6 +25,9 @@ import tensorflow as tf
 from object_detection import model_hparams
 from object_detection import model_lib
 
+import warnings
+warnings.filterwarnings("ignore")
+
 flags.DEFINE_string(
     'model_dir', None, 'Path to output model directory '
     'where event and checkpoint files will be written.')
