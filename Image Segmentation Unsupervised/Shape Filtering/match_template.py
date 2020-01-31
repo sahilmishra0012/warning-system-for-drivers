@@ -11,7 +11,7 @@ template=cv2.cvtColor(template,cv2.COLOR_BGR2GRAY)
 w, h = template.shape[::-1]
 print(template.shape)
 res = cv2.matchTemplate(thresh2,template,cv2.TM_CCOEFF_NORMED)
-threshold = 0.24
+threshold = 0.26
 loc = np.where( res >= threshold)
 for pt in zip(*loc[::-1]):
     cv2.rectangle(immg, pt, (pt[0] + w, pt[1] + h), (255,255,255), 0)
