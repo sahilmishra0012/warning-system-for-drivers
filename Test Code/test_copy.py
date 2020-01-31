@@ -220,7 +220,7 @@ def main():
 
     success = True
     similitary_contour_with_circle = 0.60   # parameter
-    min_size_components=200
+    min_size_components=300
     count = 0
     current_sign = None
     current_text = ""
@@ -238,7 +238,7 @@ def main():
 
 
     cv2.rectangle(image, coordinate[0],coordinate[1], (0,255, 0), 1)
-    print(coordinate[1])
+    image=image[coordinate[0][0]:coordinate[0][1],coordinate[1][0]:coordinate[0][1]]
     cv2.imshow('Result', image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

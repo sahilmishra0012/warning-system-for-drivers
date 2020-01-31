@@ -215,19 +215,9 @@ def remove_other_color(img):
 def main():
     frame=cv2.imread('img1.jpg')
 
-    roiBox = None
-    roiHist = None
-
-    success = True
     similitary_contour_with_circle = 0.60   # parameter
     min_size_components=200
-    count = 0
-    current_sign = None
-    current_text = ""
-    current_size = 0
-    sign_count = 0
-    coordinates = []
-    position = []
+
     width = frame.shape[1]
     height = frame.shape[0]
     dim = (width, height) 
@@ -235,10 +225,35 @@ def main():
 
     #image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     coordinate, image = localization(frame, min_size_components, similitary_contour_with_circle)
+    width = image.shape[1]
+    height = image.shape[0]
+    dim = (width, height) 
 
+    a=coordinate[0][0]
+    b=coordinate[0][1]
+    c=coordinate[1][0]
+    d=coordinate[1][1]
 
-    cv2.rectangle(image, coordinate[0],coordinate[1], (0,255, 0), 1)
-    print(coordinate[1])
+    #cv2.rectangle(image, coordinate[0],coordinate[1], (0,255, 0), 1)
+
+    if coordinate[0][0]<0:
+        a=0
+    if coordinate[0][1]<0:
+        b=0
+    if coordinate[1][0]<0:
+        c=0
+    if coordinate[1][1]<0:
+        d=0
+    
+    if coordinate[0][0]>width:
+        a=width-1
+    if coordinate[0][1]>height:
+        b=height-1
+    if coordinate[1][0]>width:
+        c=width-1
+    if coordinate[1][1]>height:
+        d=height-1
+    image=image[b:d,a:c]
     cv2.imshow('Result', image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
