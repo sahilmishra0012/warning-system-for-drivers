@@ -28,12 +28,16 @@ def clean_images():
 
 ### Preprocess image
 def constrastLimit(image):
-    img_hist_equalized = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
-    channels = cv2.split(img_hist_equalized)
-    channels[0] = cv2.equalizeHist(channels[0])
-    img_hist_equalized = cv2.merge(channels)
-    img_hist_equalized = cv2.cvtColor(img_hist_equalized, cv2.COLOR_YCrCb2BGR)
-    return img_hist_equalized
+    img=cv2.cvtColor(image,cv2.COLOR_BGR2YCrCb)
+    R, G, B = cv2.split(img)
+
+    output1_R = cv2.equalizeHist(R)
+    output1_G = cv2.equalizeHist(G)
+    output1_B = cv2.equalizeHist(B)
+
+    img = cv2.merge((output1_R, output1_G, output1_B))
+    img=cv2.cvtColor(img,cv2.COLOR_YCrCb2BGR)
+    return img
 
 def LaplacianOfGaussian(image):
     LoG_image = cv2.GaussianBlur(image, (3,3), 0)           # paramter 
@@ -43,19 +47,11 @@ def LaplacianOfGaussian(image):
     return LoG_image
     
 def binarization(image):
-    thresh = cv2.threshold(image,32,255,cv2.THRESH_BINARY)[1]
+    thresh = cv2.threshold(image,50,200,cv2.THRESH_BINARY_INV)[1]
     #thresh = cv2.adaptiveThreshold(image,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
     return thresh
 
 def preprocess_image(image):
-    # img=cv2.cvtColor(image,cv2.COLOR_BGR2YCrCb)
-    # R, G, B = cv2.split(img)
-    # output1_R = cv2.equalizeHist(R)
-    # output1_G = cv2.equalizeHist(G)
-    # output1_B = cv2.equalizeHist(B)
-    # img = cv2.merge((output1_R, output1_G, output1_B))
-    # img=cv2.cvtColor(img,cv2.COLOR_YCrCb2BGR)
-    # image = cv2.medianBlur(img, 9)
     image = constrastLimit(image)
     image = LaplacianOfGaussian(image)
     image = binarization(image)
@@ -76,7 +72,7 @@ def removeSmallComponents(image, threshold):
 
 def findContour(image):
     #find contours in the thresholded image
-    cnts,hierarchy= cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    cnts = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     return cnts
 
 def contourIsSign(perimeter, centroid, threshold):
@@ -123,7 +119,7 @@ def findLargestSign(image, contours, threshold, distance_theshold):
     max_distance = 0
     coordinate = None
     sign = None
-    for c in contours:
+    for c in contours[0]:
         M = cv2.moments(c)
         if M["m00"] == 0:
             continue
@@ -137,13 +133,13 @@ def findLargestSign(image, contours, threshold, distance_theshold):
             right, bottom = np.amax(coordinate, axis = 0)
             coordinate = [(left-2,top-2),(right+3,bottom+1)]
             sign = cropSign(image,coordinate)
-    return sign, coordinate
+    return coordinate,sign
 
 
 def findSigns(image, contours, threshold, distance_theshold):
     signs = []
     coordinates = []
-    for c in contours:
+    for c in contours[0]:
         # compute the center of the contour
         M = cv2.moments(c)
         if M["m00"] == 0:
@@ -161,17 +157,26 @@ def findSigns(image, contours, threshold, distance_theshold):
     return signs, coordinates
 
 def localization(image, min_size_components, similitary_contour_with_circle):
+    original_image = image.copy()
+    binary_image = preprocess_image(image)
 
-    binary_image = removeSmallComponents(image, min_size_components)
-    cont=findContour(binary_image)
-    cv2.drawContours(binary_image, cont, -1, (255,255,255),1)
+    binary_image = removeSmallComponents(binary_image, min_size_components)
 
-    return binary_image
+    binary_image = cv2.bitwise_and(binary_image,binary_image, mask=remove_other_color(image))
 
+    #binary_image = remove_line(binary_image)
+
+    cv2.imshow('BINARY IMAGE', binary_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    contours = findContour(binary_image)
+    #signs, coordinates = findSigns(image, contours, similitary_contour_with_circle, 15)
+    coordinate,sign = findLargestSign(original_image, contours, similitary_contour_with_circle, 15)
+    return coordinate, original_image
 
 def remove_line(img):
     gray = img.copy()
-    edges = cv2.Canny(gray,50,150,apertureSize = 3)
+    edges = cv2.Canny(gray,50,150,apertureSize = 7)
     minLineLength = 5
     maxLineGap = 3
     lines = cv2.HoughLinesP(edges,1,np.pi/180,15,minLineLength,maxLineGap)
@@ -208,138 +213,36 @@ def remove_other_color(img):
     return mask
 
 def main():
-    img=cv2.imread('img.jpg')
-    image=preprocess_image(img)
-    image=localization(image,200,0.65)
-    #image=remove_line(image)
-    template=cv2.imread('/home/samthekiller/Downloads/Smart India Hackathon/INTEL/Warning System for Drivers/Image Segmentation Test Codes/Shape Filtering/images.jpeg')
-    template=cv2.cvtColor(template,cv2.COLOR_BGR2GRAY)
-    width = int(template.shape[1] * 80 / 100)
-    height = int(template.shape[0] * 80 / 100) 
-    dim = (width, height) 
-    template=cv2.resize(template,dim,interpolation = cv2.INTER_AREA)
-    ret,temp = cv2.threshold(template,32,255,cv2.THRESH_BINARY_INV)
-    res = cv2.matchTemplate(image,temp,cv2.TM_CCOEFF_NORMED)
-    w, h = template.shape[::-1]
-    threshold = 0.07
-    loc = np.where( res >= threshold)
-    for pt in zip(*loc[::-1]):
-        cv2.rectangle(immg, pt, (pt[0] + w, pt[1] + h), (255,255,255), 0)
+    frame=cv2.imread('img1.jpg')
 
-    loc = np.where( res >= threshold)
-    cv2.imshow('Image',immg)
+    roiBox = None
+    roiHist = None
+
+    success = True
+    similitary_contour_with_circle = 0.60   # parameter
+    min_size_components=200
+    count = 0
+    current_sign = None
+    current_text = ""
+    current_size = 0
+    sign_count = 0
+    coordinates = []
+    position = []
+    width = frame.shape[1]
+    height = frame.shape[0]
+    dim = (width, height) 
+    frame = cv2.resize(frame,dim,interpolation=cv2.INTER_AREA)
+
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    coordinate, image = localization(frame, min_size_components, similitary_contour_with_circle)
+
+
+    cv2.rectangle(image, coordinate[0],coordinate[1], (0,255, 0), 1)
+    print(coordinate[1])
+    cv2.imshow('Result', image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    # roiBox = None
-    # roiHist = None
-    # min_size_components=300
-    # similitary_contour_with_circle=0.65
-    # success = True
-    # count = 0
-    # current_sign = None
-    # current_text = ""
-    # current_size = 0
-    # sign_count = 0
-    # coordinates = []
-    # position = []
-    # file = open("Output.txt", "w")
-    # while True:
-    #     success,frame = vidcap.read()
-    #     if not success:
-    #         print("FINISHED")
-    #         break
-    #     width = frame.shape[1]
-    #     height = frame.shape[0]
-    #     #frame = cv2.resize(frame, (640,int(height/(width/640))))
-    #     frame = cv2.resize(frame, (640,480))
 
-    #     print("Frame:{}".format(count))
-    #     #image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    #     coordinate, image, sign_type, text = localization(frame,min_size_components,similitary_contour_with_circle, model, count, current_sign)
-    #     if coordinate is not None:
-    #         cv2.rectangle(image, coordinate[0],coordinate[1], (255, 255, 255), 1)
-    #     print("Sign:{}".format(sign_type))
-    #     if sign_type > 0 and (not current_sign or sign_type != current_sign):
-    #         current_sign = sign_type
-    #         current_text = text
-    #         top = int(coordinate[0][1]*1.05)
-    #         left = int(coordinate[0][0]*1.05)
-    #         bottom = int(coordinate[1][1]*0.95)
-    #         right = int(coordinate[1][0]*0.95)
-
-    #         position = [count, sign_type if sign_type <= 8 else 8, coordinate[0][0], coordinate[0][1], coordinate[1][0], coordinate[1][1]]
-    #         cv2.rectangle(image, coordinate[0],coordinate[1], (0, 255, 0), 1)
-    #         font = cv2.FONT_HERSHEY_PLAIN
-    #         cv2.putText(image,text,(coordinate[0][0], coordinate[0][1] -15), font, 1,(0,0,255),2,cv2.LINE_4)
-
-    #         tl = [left, top]
-    #         br = [right,bottom]
-    #         print(tl, br)
-    #         current_size = math.sqrt(math.pow((tl[0]-br[0]),2) + math.pow((tl[1]-br[1]),2))
-    #         # grab the ROI for the bounding box and convert it
-    #         # to the HSV color space
-    #         roi = frame[tl[1]:br[1], tl[0]:br[0]]
-    #         roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-    #         #roi = cv2.cvtColor(roi, cv2.COLOR_BGR2LAB)
-
-    #         # compute a HSV histogram for the ROI and store the
-    #         # bounding box
-    #         roiHist = cv2.calcHist([roi], [0], None, [16], [0, 180])
-    #         roiHist = cv2.normalize(roiHist, roiHist, 0, 255, cv2.NORM_MINMAX)
-    #         roiBox = (tl[0], tl[1], br[0], br[1])
-
-    #     elif current_sign:
-    #         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    #         backProj = cv2.calcBackProject([hsv], [0], roiHist, [0, 180], 1)
-
-    #         # apply cam shift to the back projection, convert the
-    #         # points to a bounding box, and then draw them
-    #         (r, roiBox) = cv2.CamShift(backProj, roiBox, termination)
-    #         pts = np.int0(cv2.boxPoints(r))
-    #         s = pts.sum(axis = 1)
-    #         tl = pts[np.argmin(s)]
-    #         br = pts[np.argmax(s)]
-    #         size = math.sqrt(pow((tl[0]-br[0]),2) +pow((tl[1]-br[1]),2))
-    #         print(size)
-
-    #         if  current_size < 1 or size < 1 or size / current_size > 30 or math.fabs((tl[0]-br[0])/(tl[1]-br[1])) > 2 or math.fabs((tl[0]-br[0])/(tl[1]-br[1])) < 0.5:
-    #             current_sign = None
-    #             print("Stop tracking")
-    #         else:
-    #             current_size = size
-
-    #         if sign_type > 0:
-    #             top = int(coordinate[0][1])
-    #             left = int(coordinate[0][0])
-    #             bottom = int(coordinate[1][1])
-    #             right = int(coordinate[1][0])
-
-    #             position = [count, sign_type if sign_type <= 8 else 8, left, top, right, bottom]
-    #             cv2.rectangle(image, coordinate[0],coordinate[1], (0, 255, 0), 1)
-    #             font = cv2.FONT_HERSHEY_PLAIN
-    #             cv2.putText(image,text,(coordinate[0][0], coordinate[0][1] -15), font, 1,(0,0,255),2,cv2.LINE_4)
-    #         elif current_sign:
-    #             position = [count, sign_type if sign_type <= 8 else 8, tl[0], tl[1], br[0], br[1]]
-    #             cv2.rectangle(image, (tl[0], tl[1]),(br[0], br[1]), (0, 255, 0), 1)
-    #             font = cv2.FONT_HERSHEY_PLAIN
-    #             cv2.putText(image,current_text,(tl[0], tl[1] -15), font, 1,(0,0,255),2,cv2.LINE_4)
-
-    #     if current_sign:
-    #         sign_count += 1
-    #         coordinates.append(position)
-
-    #     cv2.imshow('Result', image)
-    #     count = count + 1
-    #     #Write to video
-    #     out.write(image)
-    #     if cv2.waitKey(1) & 0xFF == ord('q'):
-    #         break
-    # file.write("{}".format(sign_count))
-    # for pos in coordinates:
-    #     file.write("\n{} {} {} {} {} {}".format(pos[0],pos[1],pos[2],pos[3],pos[4], pos[5]))
-    # print("Finish {} frames".format(count))
-    # file.close()
-    # return 
 
 
 if __name__ == '__main__':
