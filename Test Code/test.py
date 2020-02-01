@@ -8,14 +8,9 @@ import argparse
 import os
 import math
 
-def clean_images():
-	file_list = os.listdir('./')
-	for file_name in file_list:
-		if '.png' in file_name:
-			os.remove(file_name)
-
 def constrastLimit(image):
     img=cv2.cvtColor(image,cv2.COLOR_BGR2YCrCb)
+    img = cv2.medianBlur(img, 3)
     R, G, B = cv2.split(img)
 
     output1_R = cv2.equalizeHist(R)
@@ -34,7 +29,7 @@ def LaplacianOfGaussian(image):
     return LoG_image
     
 def binarization(image):
-    thresh = cv2.threshold(image,50,200,cv2.THRESH_BINARY_INV)[1]
+    thresh = cv2.threshold(image,200,255,cv2.THRESH_BINARY_INV)[1]
     return thresh
 
 def preprocess_image(image):
@@ -174,7 +169,7 @@ def remove_other_color(img):
     return mask
 
 def main():
-    frame=cv2.imread('img1.jpg')
+    frame=cv2.imread('img.jpg')
 
     similitary_contour_with_circle = 0.60
     min_size_components=200
