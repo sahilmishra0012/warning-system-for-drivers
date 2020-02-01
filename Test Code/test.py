@@ -49,7 +49,7 @@ def removeSmallComponents(image, threshold):
     return img2
 
 def findContour(image):
-    cnts = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     return cnts
 
 def contourIsSign(perimeter, centroid, threshold):
@@ -141,7 +141,7 @@ def localization(image, min_size_components, similitary_contour_with_circle):
 
 def remove_line(img):
     gray = img.copy()
-    edges = cv2.Canny(gray,50,150,apertureSize = 7)
+    edges = cv2.Canny(gray,10,255,apertureSize = 7)
     minLineLength = 5
     maxLineGap = 3
     lines = cv2.HoughLinesP(edges,1,np.pi/180,15,minLineLength,maxLineGap)
@@ -169,7 +169,7 @@ def remove_other_color(img):
     return mask
 
 def main():
-    frame=cv2.imread('img.jpg')
+    frame=cv2.imread('img1.jpg')
 
     similitary_contour_with_circle = 0.60
     min_size_components=200
@@ -182,34 +182,39 @@ def main():
     coordinate, image = localization(frame, min_size_components, similitary_contour_with_circle)
     width = image.shape[1]
     height = image.shape[0]
-    dim = (width, height) 
+    dim = (width, height)
 
-    a=coordinate[0][0]
-    b=coordinate[0][1]
-    c=coordinate[1][0]
-    d=coordinate[1][1]
+    try:
 
-    if coordinate[0][0]<0:
-        a=0
-    if coordinate[0][1]<0:
-        b=0
-    if coordinate[1][0]<0:
-        c=0
-    if coordinate[1][1]<0:
-        d=0
-    
-    if coordinate[0][0]>width:
-        a=width-1
-    if coordinate[0][1]>height:
-        b=height-1
-    if coordinate[1][0]>width:
-        c=width-1
-    if coordinate[1][1]>height:
-        d=height-1
-    image=image[b:d,a:c]
-    cv2.imshow('Result', image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+        a=coordinate[0][0]
+        b=coordinate[0][1]
+        c=coordinate[1][0]
+        d=coordinate[1][1]
+
+        if coordinate[0][0]<0:
+            a=0
+        if coordinate[0][1]<0:
+            b=0
+        if coordinate[1][0]<0:
+            c=0
+        if coordinate[1][1]<0:
+            d=0
+        
+        if coordinate[0][0]>width:
+            a=width-1
+        if coordinate[0][1]>height:
+            b=height-1
+        if coordinate[1][0]>width:
+            c=width-1
+        if coordinate[1][1]>height:
+            d=height-1
+        image=image[b:d,a:c]
+        cv2.imshow('Result', image)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    except:
+        print('No Sign Found')
+        pass
 
 if __name__ == '__main__':
     main()

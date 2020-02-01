@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-img = cv2.imread("image.jpg")
+img = cv2.imread("/home/samthekiller/Downloads/Smart India Hackathon/INTEL/Warning System for Drivers/Test Code/img1.jpg")
 img=cv2.cvtColor(img,cv2.COLOR_BGR2YCrCb)
 
 Y,Cr,Cb = cv2.split(img)
