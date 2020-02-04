@@ -11,7 +11,7 @@ from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
 def class_text_to_int(row_label):
-    if row_label == 'Traffic Sign':
+    if row_label == 'traffic sign':
         return 1
     else:
         return 0
